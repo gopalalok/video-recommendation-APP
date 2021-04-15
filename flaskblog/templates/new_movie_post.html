@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section" style="width: 500px;height: auto;margin-left: auto;margin-right: auto;">
+        <div class="media">
+        {% if movie_image_file %}
+        <img style="height: 100px;width: 150px;margin-right: 20px" src="{{ movie_image_file }}">
+        {% endif %}
+        <div class="media-body">
+          <h2 class="account-heading">{{ current_user.username }}</h2>
+          <p class="text-secondary">{{ current_user.email }}</p>
+        </div>
+      </div>
+      
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4" >Movie Info</legend>
+                <div class="form-group">
+                    {{ form.title.label(class="form-control-label") }}
+
+                    {% if form.title.errors %}
+                        {{ form.title(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.title(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.language.label(class="form-control-label") }}
+
+                    {{ form.language(class="form-control form-control-lg") }}
+                </div>
+                <div class="form-group">
+                    {{ form.genres.label(class="form-control-label") }}
+                    {% if form.genres.errors %}
+                        {{ form.genres(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.genres.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.genres(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.year.label(class="form-control-label") }}
+                    {% if form.year.errors %}
+                        {{ form.year(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.year.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.year(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.link.label(class="form-control-label") }}
+                    {% if form.link.errors %}
+                        {{ form.link(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.link(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.content.label(class="form-control-label") }}
+                    {% if form.content.errors %}
+                        {{ form.content(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.content.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.content(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.picture.label() }}
+                    {{ form.picture(class="form-control-file") }}
+                    {% if form.picture.errors %}
+                        {% for error in form.picture.errors %}
+                            <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

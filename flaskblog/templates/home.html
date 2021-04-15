@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+ <div class="row">
+  {% for mov in all_movie %}
+  {% for post in movie_post %}
+  {% if mov == post.movie_id %}
+  <div class="col-md-3 mb-3" >
+    <div >
+      <a href="{{ url_for('play_movie',movie_id = post.movie_id) }}">
+        <img src="{{ url_for('static', filename='pics/movie_pics/' + post.movie_image_file) }}" alt="Lights" style="width:250px; height: 150px" class="img-thumbnail">
+        <div class="caption">
+          <h5 style="text-align: center;">{{post.title}}</h5>
+        </div>
+      </a>
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+  {% endfor %}
+</div>
+{% for page_num in total_page %}
+    {% if page == page_num %}
+          <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+    {% endif %}
+{% endfor %}
+{% endblock content %}

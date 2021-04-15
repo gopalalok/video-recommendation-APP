@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block content %}
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-md-9" style="height: 2px">
+      <div class="embed-responsive embed-responsive-16by9">
+        <iframe width="727" height="409"  src = "https://www.youtube.com/embed/{{post.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <h3 style="margin-top: 5px">{{post.title}} ||{{post.language}} || {{post.genres}} || Release -- {{post.year}} </h3>
+      <h5>{{ post.date_posted.strftime('%d-%m-%Y') }}</h5>
+      <p>{{post.content}}</p>
+
+
+      <form method="POST" action="{{ url_for('play_movie', movie_id=post.movie_id) }}">
+        {{ form.hidden_tag() }}
+          <fieldset class="form-group" style="margin-top: 50px">
+            <div class="form-group">
+              {{ form.content.label(class="form-control-label") }}
+                {% if form.content.errors %}
+                {{ form.content(class="form-control form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for error in form.content.errors %}
+                      <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                    {% else %}
+                      {{ form.content(class="form-control form-control-lg") }}
+                    {% endif %}
+            </div>
+          </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+      </form>
+      <article>
+        <h5 class="mb-3">{{ com_total }} Comments</h5>
+        {% for com in comm %}
+          {% for usr in usrr %}
+                  {% if usr.id == com.user_id %}
+              <img class="rounded-circle article-img" src="{{ url_for('static', filename='pics/user_pics/' + usr.image_file) }}"> 
+              <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{usr.your_name}}</a>
+                  <small class="text-muted">{{com.date_posted.strftime('%d-%m-%Y')}}</small>
+                  {% if com.author_user == current_user %}
+                  <div style="margin-bottom: 10px;float: right;">
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('updateComment',movie_id=post.movie_id,comment_id = com.comment_id) }}">Update</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{{ url_for('delete_comment', movie_id=post.movie_id,comment_id = com.comment_id) }}">Delete</a>
+              
+                  </div>
+                  {% endif %}
+
+                    <p class="article-content">{{ com.content }}</p>
+                </div>
+
+              {% endif %}
+              {% endfor %}
+              {% endfor %}
+            </div>
+          </article>
+   </div>
+      <div class="col-md-3" style="width: 270px;float: right;">
+          {% for mv in rem_movie %}
+            {% for movi in movie %}
+              {% if mv == movi.movie_id %}
+              {% if mv != post.movie_id %}
+              <div class="col mb-3">
+                <div class="img-thumbnail">
+                  <a href="{{ url_for('play_movie',movie_id = mv) }}">
+                    <img src="{{ url_for('static', filename='pics/movie_pics/' + movi.movie_image_file) }}" alt="Lights" style="width:250px; height: 120px" class="img-thumbnail">
+                     <h5 style="text-align: center;">{{movi.title}}</h5>                    
+                  </a>
+                </div>                   
+              </div>
+              {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+       
+      </div>
+    </div>
+  </main>
+
+{% endblock content %}
